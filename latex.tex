@@ -1,0 +1,143 @@
+\documentclass{article}
+
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{color}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage[margin=.5in, tmargin=.5in]{geometry}
+\setlength{\columnsep}{1cm}
+\setlength\parindent{0pt}
+\captionsetup{justification=centering}
+
+\title{Title}
+\date{}
+\author{Firstname Lastname \textless ID\textgreater}
+
+\begin{document}
+\begin{multicols}{2}
+    [
+        \maketitle
+    ]
+
+    \section{Aim}
+    The aim of this task is to conduct an exploratory analysis of the test data
+    and visualize it using PCA in two dimensions.
+    
+    \section{Analysis}
+    Principal components by constraint:
+    \begin{itemize}
+        \item Are unit vectors (i.e. with length 1)
+        \item Have their first element positive.
+    \end{itemize}
+    
+    \subsection{PCA}
+    The data used is the train data \texttt{train\_features}.
+    The first (2) eigenvalues ($\lambda_1 - \lambda_{2}$) in descending order are as follows\:
+    
+    \begin{equation*}
+    \begin{matrix}
+        14.436913053045750 \\ 
+        11.132811895660307 \\
+    \end{matrix}
+    \end{equation*}
+    
+    PCA was conducted with the first two eigenvalues.
+    
+    \begin{equation}
+        X^{PCA} = X E_2
+    \end{equation}
+    
+    These have the corresponding eigenvectors $E_2$
+        (up to the 5th dimension).
+    
+    \begin{equation*}
+    \begin{matrix}
+        E_2(:,1) & E_2(:,2) \\
+        0.020922359466933 &  0.021907257618781 \\
+  -0.045553933835985 &  0.223034087356148 \\
+   0.051470687692859 & -0.181532421268511 \\
+   0.030525919813617 &  0.003624032897563 \\
+   0.202256254104367 & -0.060085531828432 \\
+        ... & ...
+    \end{matrix}
+    \end{equation*}
+    
+    The projected feature vectors, $X^{PCA}$ (up to the $5^{th}$ feature) are:
+    
+    \begin{equation*}
+    \begin{matrix}
+        X^{PCA}(:,1) & X^{PCA}(:,2) \\
+        0.822813957179058 &  7.052804477915948 \\
+  -3.329330363017356  & 1.720004921764954 \\
+   1.304069800790206  & 1.204138063953670 \\ 
+   0.521814413476073  & 1.204246671490561 \\
+  -2.690792654282171 &  -2.764980891087252 \\
+        ... & ...
+    \end{matrix}
+    \end{equation*}
+    
+    \subsection{Visualization}
+    This transformation is seen in the scatterplot in Figure~\ref{fig:fig1}:
+
+    \begin{figure}[H]
+        \includegraphics[width=\columnwidth]{resources/scatter.png}
+        \captionof{figure}{2-D Scatterplot of Projected Data \\\textit{file: resources/scatter.png}}
+        \label{fig:fig1} 
+    \end{figure}
+    
+    \subsection{Cumulative Variance}
+    By summing the eigenvalues we get the cumulative variance of the projected data.
+    The variance can be shown to be:
+    \begin{equation}
+        Y_k = \sum_{i=1}^{k} \lambda_i \  \textrm{for} \  k = 1,...,D
+    \end{equation}
+    
+    A plot of $k$ against $Y_k$ is shown below in Figure~\ref{fig:fig2}:
+    
+    \begin{figure}[H]
+        \includegraphics[width=\columnwidth]{resources/c_variance.png}
+        \caption{Plot of cumulative variance \\\textit{file: resources/c\_variance.png}}
+        \label{fig:fig2}
+    \end{figure} 
+
+    The variance increases greatly until we start looking at eigenvectors corresponding to
+    smaller eigenvalues, where omitting that data less effect. The first $\tilde15$ eigenvalues
+    have the most effect, after which the rest are less significant.
+
+    \subsection{Investigation and Discussions}
+    The eigenvalues of the covariance matrix suggest that only the first 15 components are significant.
+    The rest seem to have little effect on variance when omitted in PCA. The result is not proven
+    to be statistically significant, however it suggests that an analysis can be performed by omitting
+    many of the eigenvalues without sacrificing too much accuracy.
+    \\
+    \\ 
+    In Figure~\ref{fig:add} you can see a similar plot doing PCA with the $3^{rd}$ and $4^{th}$ PCA components.
+    The projected data still is well separated, even though it has slightly less variance. 
+    \\
+    \\
+    The third and fourth eigenvalues are:
+    \begin{align*}
+        \lambda_3 = 7.471332718617671 \\
+        \lambda_4 = 5.374712022502353
+    \end{align*}
+    
+    \begin{figure}[H]
+        \includegraphics[width=\columnwidth]{resources/scatter3-4.jpg}
+        \captionof{figure}{2-D Scatterplot of Projected Data \\\textit{file: resources/scatter3-4.jpg}}
+        \label{fig:add} 
+    \end{figure}
+    
+    For reference, this is the plot with the smallest possible variance ($99^{th}\ and\ 100^{th}$ eigenvectors).
+    
+    \begin{figure}[H]
+        \includegraphics[width=\columnwidth]{resources/last-2.jpg}
+        \captionof{figure}{PCA with the least variance \\\textit{file: resources/last-2.jpg}}
+        \label{fig:add} 
+    \end{figure}
+    
+    \end{multicols}
+    
+\end{document}
